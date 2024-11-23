@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEXshop - Página Principal</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="database.js"></script>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <div class="navbar">
+        <button onclick="cerrarSesion()">Cerrar sesión</button>
+        <button onclick="venderArticulo()">Vender artículos</button>
+        <button onclick="verCarrito()">Carrito</button>
+    </div>
+
+    <div class="main-container">
+        <h1>¡Bienvenido a MEXshop!</h1>
+        <p>¡Tu tienda de compra y venta en línea!</p>
+
+        <!-- Contenedor de los productos -->
+        <div id="product-list" class="product-list">
+            <!-- Los productos se agregarán dinámicamente aquí -->
+        </div>
+    </div>
+
+    <script>
+        // Alerta que aparece cuando se accede a la página principal
+        alert('Bienvenido a MEXshop');
+
+        // Función para cerrar sesión
+        function cerrarSesion() {
+            // Puedes redirigir al usuario al login o eliminar su sesión si fuera necesario
+            alert('Has cerrado sesión');
+            window.location.href = 'index.html'; // Redirigir a la página de login
+        }
+
+        // Función para ir a la página de venta de artículos
+        function venderArticulo() {
+            alert('Ir a la sección para vender artículos');
+            // Aquí puedes redirigir a una página de venta de artículos o mostrar un formulario de venta
+        }
+
+        // Función para ver el carrito
+        function verCarrito() {
+            alert('Ver el carrito de compras');
+            // Aquí puedes redirigir al carrito de compras o mostrar su contenido
+        }
+
+        // Definimos algunos productos como objetos JSON
+        /*const productos = [
+            {
+                nombre: "Laptop HP",
+                precio: 8500,
+                vendedor: "Juan Pérez",
+                estado: "Semiusado"
+            },
+            {
+                nombre: "Teléfono Xiaomi",
+                precio: 3500,
+                vendedor: "Maria López",
+                estado: "Nuevo"
+            },
+            {
+                nombre: "Cámara Digital Canon",
+                precio: 2500,
+                vendedor: "Carlos Gómez",
+                estado: "Usado"
+            },
+            {
+                nombre: "Silla Gaming",
+                precio: 1500,
+                vendedor: "Ana Fernández",
+                estado: "Nuevo"
+            }
+        ];*/
+
+        // Función para agregar los productos a la página
+        function mostrarProductos() {
+            const productos = obtenerProductos();
+            const productListContainer = document.getElementById("product-list");
+
+            productos.forEach((producto) => {
+                const productElement = document.createElement("div");
+                productElement.classList.add("product");
+
+                productElement.innerHTML = `
+                    <h3>${producto.nombre}</h3>
+                    <p>Precio: $${producto.precio}</p>
+                    <p>Vendedor: ${producto.vendedor}</p>
+                    <p>Estado: ${producto.estado}</p>
+                    <button onclick="comprarProducto('${producto.nombre}')">Comprar</button>
+                `;
+
+                productListContainer.appendChild(productElement);
+            });
+        }
+
+        // Función para manejar la compra de un producto
+        function comprarProducto(nombreProducto) {
+            alert(`¡Has comprado el producto: ${nombreProducto}!`);
+        }
+
+        // Mostrar los productos cuando la página cargue
+        mostrarProductos();
+    </script>
+</body>
+</html>
