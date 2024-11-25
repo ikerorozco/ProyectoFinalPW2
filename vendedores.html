@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEXshop - Página de vendedores</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="database.js"></script>
+</head>
+<body>
+    <!-- Barra de opciones para el vendedor -->
+    <div class="navbar">
+        <button onclick="paginaPrincipal()">Página Principal</button>
+        <button onclick="opcionesVendedor()">Publicar, modificar o eliminar artículo</button>
+        <button onclick="verVentas()">Ventas totales</button>
+        <button onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+    <div id="inicial" class="mensaje-inicio">
+        <h1>¡Bienvenido a MEXshop!</h1>
+        <p>¡Tu tienda de compra y venta en línea!</p>
+    </div>
+
+    <!--Acciones disponibles para los vendedores-->
+    <div id = "opcionesVendedor" class ="opcionesVendedor-container">
+        <button onclick="nuevoArtículo()" class="btnOpciones">Publicar nuevo artículo en venta</button>
+        <button onclick="modificarArticulo()" class="btnOpciones">Modificar un artículo ya publicado</button>
+        <button onclick="eliminarArtículo()" class="btnOpciones">Eliminar artículo a la venta</button>
+    </div>
+
+    <!--Formato para la adición de un nuevo producto a la venta-->
+    <div id = "nuevoProducto" class = "nuevoproducto-container">
+        <form> 
+            <div class = "nuevaInformacion">
+                <div class="input-group">
+                    <label for="nuevo-producto-nombre">¿Cuál es el nombre del producto que quieres vender?</label>
+                    <input type="text" id="nuevo-producto" placeholder="Ingresa un nombre" required>
+                </div>
+                <div class="input-group">
+                    <label for="nuevo-precio">¿Cuál es el precio para el nuevo producto?</label>
+                    <input type="number" id="nuevo-precio" placeholder="Ingresa el precio en MXN" required>
+                </div>
+                <div class="input-group">
+                    <label for="nuevo-descripcion">Agrega una breve descripción de tu nuevo producto</label>
+                    <input type="text" id="nuevo-descripcion" placeholder="Ingresa medidas o especificaciones importantes" required>
+                </div>
+                <div class="input-group">
+                    <label for="nuevo-stock">Agrega la cantidad de productos disponibles para la venta</label>
+                    <input type="number" id="nuevo-stock" placeholder="Cantidad" required>
+                </div>
+            </div>
+            <div class = "nuevaImagen">
+                <div class = input-image>
+                    <label for = "nuevoproducto-imagen">Sube una imagen o fotografía referente al producto que pondras a la venta</label>
+                    <input type="file" id="nuevo-imagen" required>
+                </div> 
+            </div>
+            <button type="submit" class="btnVenta">Publicar artículo a la venta</button>
+        </form>
+            <button onclick="cancelar()" class="btnVentaCancelar">Cancelar publicación</button>
+    </div>
+
+    <!--Formato para la modificación de un producto a la venta-->
+    <div id ="modificarProducto" class = "modificarProducto-container">
+        <button onclick = "cancelar()"class = "btnOpciones">Cancelar Modificacion</button>
+    </div>
+
+    <!--Formato para la eliminación de un producto a la venta-->
+    <div id = "eliminarProducto" class = "eliminarProducto-container">
+        <button onclick = "cancelar()" class = "btnOpciones">Cancelar Modificacion</button>
+    </div>
+
+    <script>
+        //función para regresar al inicio de la pagina
+        function paginaPrincipal(){
+            var mensajeInicial = document.getElementById("inicial")
+            if(mensajeInicial.style.display === "none"){
+                alert('Regresar a la página inicial')
+                window.location.href = 'vendedores.html'; //Regresa al inicio de la vista de vendedores
+            }  
+        }
+        // Función para cerrar sesión
+        function cerrarSesion() {
+            // Puedes redirigir al usuario al login o eliminar su sesión si fuera necesario
+            alert('Has cerrado sesión')
+            window.location.href = 'index.html'; // Redirigir a la página de login
+        }
+        // función para entrar a las opciones disponibles para los vendedores
+        function opcionesVendedor() {
+            alert('Panel de opciones para vendedores')
+            var opcionesVendedor = document.getElementById("opcionesVendedor")
+            var mensajeInicial = document.getElementById("inicial")
+            var productoNuevo = document.getElementById("nuevoProducto")
+            var modificarProducto = document.getElementById("modificarProducto")
+            var eliminarProducto = document.getElementById("eliminarProducto")
+
+            
+            productoNuevo.style.display = "none";    
+            mensajeInicial.style.display = "none";
+            opcionesVendedor.style.display = "block";
+            modificarProducto.style.display = "none";
+            eliminarProducto.style.display = "none";
+            modificarProducto.style.display = "none";
+
+        }
+        //función para entrar a la interfaz de la publicación de nuevos artículos
+        function nuevoArtículo(){
+            var productoNuevo = document.getElementById("nuevoProducto")
+            var opcionesVendedor = document.getElementById("opcionesVendedor")
+            opcionesVendedor.style.display = "none";
+            productoNuevo.style.display = "block";
+        }
+        //función para entrar a la interfaz de modificación de artículos ya a la venta
+        function modificarArticulo(){
+            alert("modificación de artículos");
+            var opcionesVendedor = document.getElementById("opcionesVendedor")
+            var modificarProducto = document.getElementById("modificarProducto")
+            opcionesVendedor.style.display = "none";
+            modificarProducto.style.display = "block";
+
+            
+            //se añadirá una vez que se tenga la base de datos
+        }
+        //función para eliminar artículos en venta
+        function eliminarArtículo(){
+            alert("eliminación de artículos")
+            var opcionesVendedor = document.getElementById("opcionesVendedor")
+            var eliminarProducto = document.getElementById("eliminarProducto")
+            opcionesVendedor.style.display = "none";
+            eliminarProducto.style.display = "block";
+            //se añadirá una vez que se tenga la base de datos
+        }
+        
+        //función para ver el reporte de ventas
+        function verVentas(){
+            var productoNuevo = document.getElementById("nuevoProducto")
+            if(productoNuevo.style.display === "block"){
+                let salir = confirm("quieres salir?")
+                if(salir){
+                    alert('Ver estadísticas de ventas de la última semana')
+                    productoNuevo.style.display = "none";
+                }
+            }else{
+                alert('Ver estadísticas de ventas de la última semana')
+            }
+        }
+        function cancelar(){
+           let cancelar = confirm("¿Seguro que quiere cancelar?");
+           if(cancelar){
+            opcionesVendedor();
+           }
+        }
+
+    </script>
+</body>
+</html>

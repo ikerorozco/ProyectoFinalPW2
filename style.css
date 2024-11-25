@@ -254,3 +254,45 @@ button:hover {
 .product button:hover {
     background-color: #084a7d;
 }
+.mensaje-inicio{
+    display: block;
+}
+.nuevoproducto-container {
+    display: none;
+}
+.btnVenta {
+    background-color: #0d479a;
+    color: white;
+    margin-top: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btnVentaCancelar {
+    background-color: #0d479a;
+    color: white;
+    margin-top: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.opcionesVendedor-container {
+    display: none;
+}
+.btnOpciones {
+    background-color: #0d479a;
+    color: white;
+    margin-top: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.modificarProducto-container {
+    display: none;
+}
+.eliminarProducto-container {
+    display: none;
+}
