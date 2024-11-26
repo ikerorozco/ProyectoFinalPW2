@@ -15,16 +15,35 @@ switchToLogin.addEventListener('click', () => {
     loginForm.classList.remove('hidden');
 });
 
+// Función para obtener los usuarios desde localStorage
+function obtenerUsuarios() {
+    return JSON.parse(localStorage.getItem("usuarios")) || [];
+}
+
+// Función para guardar los usuarios en localStorage
+function guardarUsuarios(usuarios) {
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+}
+
+// Verificar si la base de datos de usuarios existe, si no, inicializarla
+if (!localStorage.getItem("usuarios")) {
+    const usuariosIniciales = [
+        { id: 1, nombre: "Carlos Gómez", rol: "comprador", contraseña: "1234" }
+    ];
+    localStorage.setItem("usuarios", JSON.stringify(usuariosIniciales));
+}
+
 // Manejo del formulario de inicio de sesión
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    // Verificar si el usuario existe en localStorage
-    const storedUser = JSON.parse(localStorage.getItem(username));
+    // Obtener los usuarios y verificar si el usuario existe
+    const usuarios = obtenerUsuarios();
+    const usuario = usuarios.find(u => u.nombre === username);
 
-    if (storedUser && storedUser.password === password) {
+    if (usuario && usuario.contraseña === password) {
         // Redirigir a la página principal
         window.location.href = 'principal.html';
     } else {
@@ -38,23 +57,29 @@ signupForm.addEventListener('submit', (e) => {
     const newUsername = document.getElementById('new-username').value;
     const newPassword = document.getElementById('new-password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
+    const userRole = document.getElementById('user-role').value;
+
+    if (!userRole) {
+        alert('Por favor selecciona un rol (comprador o vendedor).');
+        return;
+    }
 
     if (newPassword === confirmPassword) {
-        const user = { username: newUsername, password: newPassword };
-        localStorage.setItem(newUsername, JSON.stringify(user));
+        const usuarios = obtenerUsuarios();
+        const nuevoUsuario = {
+            id: usuarios.length > 0 ? usuarios[usuarios.length - 1].id + 1 : 1,
+            nombre: newUsername,
+            rol: userRole,
+            contraseña: newPassword
+        };
+
+        usuarios.push(nuevoUsuario);
+        guardarUsuarios(usuarios);
+
         alert('Cuenta creada exitosamente. Ahora puedes iniciar sesión.');
         signupForm.classList.add('hidden');
         loginForm.classList.remove('hidden');
     } else {
         alert('Las contraseñas no coinciden.');
     }
-});
-
-// Selección de elementos del menú de hamburguesa
-const hamburgerIcon = document.getElementById('hamburger-icon');
-const navMenu = document.getElementById('nav-menu');
-
-// Función para abrir y cerrar el menú de hamburguesa
-hamburgerIcon.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
 });

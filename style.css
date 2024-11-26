@@ -14,20 +14,6 @@ body {
     color: #333;
 }
 
-/* Estilo para el menú de hamburguesa */
-.hamburger-menu {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 100;
-}
-
-.hamburger-icon {
-    font-size: 30px;
-    cursor: pointer;
-    color: #0d479a;
-}
-
 /* Menú oculto por defecto */
 .nav-menu {
     display: none;
@@ -253,4 +239,112 @@ button:hover {
 
 .product button:hover {
     background-color: #084a7d;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    background-color: #fff;
+}
+
+select:focus {
+    border-color: #0d479a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.navbar {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.navbar button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.navbar button:hover {
+    background-color: #444;
+}
+
+.main-container {
+    padding: 20px;
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product {
+    width: 30%;
+    background-color: white;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product h3 {
+    font-size: 18px;
+}
+
+.product p {
+    font-size: 14px;
+}
+
+button {
+    padding: 10px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #005f6b;
+}
+
+.hidden {
+    display: none;
+}
+
+.message {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.message h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+.message p {
+    font-size: 16px;
+    color: #666;
 }

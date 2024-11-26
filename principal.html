@@ -39,45 +39,21 @@
 
         // Función para ir a la página de venta de artículos
         function venderArticulo() {
+            // Ocultar los productos
+            document.getElementById('product-list').style.display = 'none';
             alert('Ir a la sección para vender artículos');
             // Aquí puedes redirigir a una página de venta de artículos o mostrar un formulario de venta
         }
 
         // Función para ver el carrito
         function verCarrito() {
+            // Ocultar los productos
+            document.getElementById('product-list').style.display = 'none';
             alert('Ver el carrito de compras');
             // Aquí puedes redirigir al carrito de compras o mostrar su contenido
         }
 
-        // Definimos algunos productos como objetos JSON
-        /*const productos = [
-            {
-                nombre: "Laptop HP",
-                precio: 8500,
-                vendedor: "Juan Pérez",
-                estado: "Semiusado"
-            },
-            {
-                nombre: "Teléfono Xiaomi",
-                precio: 3500,
-                vendedor: "Maria López",
-                estado: "Nuevo"
-            },
-            {
-                nombre: "Cámara Digital Canon",
-                precio: 2500,
-                vendedor: "Carlos Gómez",
-                estado: "Usado"
-            },
-            {
-                nombre: "Silla Gaming",
-                precio: 1500,
-                vendedor: "Ana Fernández",
-                estado: "Nuevo"
-            }
-        ];*/
-
-        // Función para agregar los productos a la página
+        // Función para mostrar los productos en la página principal
         function mostrarProductos() {
             const productos = obtenerProductos();
             const productListContainer = document.getElementById("product-list");
