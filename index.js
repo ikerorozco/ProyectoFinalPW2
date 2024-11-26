@@ -4,7 +4,7 @@ const signupForm = document.getElementById('signup-form');
 const switchToSignup = document.getElementById('switch-to-signup');
 const switchToLogin = document.getElementById('switch-to-login');
 
-// Función para alternar entre el inicio de sesión y la creación de cuenta
+// Función para alternar entre formularios
 switchToSignup.addEventListener('click', () => {
     loginForm.classList.add('hidden');
     signupForm.classList.remove('hidden');
@@ -20,17 +20,46 @@ function obtenerUsuarios() {
     return JSON.parse(localStorage.getItem("usuarios")) || [];
 }
 
+function obtenerCarrito() {
+    return JSON.parse(localStorage.getItem("carrito"));
+}
+
 // Función para guardar los usuarios en localStorage
 function guardarUsuarios(usuarios) {
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
 }
 
-// Verificar si la base de datos de usuarios existe, si no, inicializarla
+// Función para agregar un producto al carrito
+function agregarAlCarrito(usuario, nombrePedido, cantidad, precio) {
+    const carrito = obtenerCarrito();
+
+    // Verificamos si el producto ya está en el carrito
+    const productoExistente = carrito.find(item => item.nombrePedido === nombrePedido && item.usuario === usuario);
+    
+    if (productoExistente) {
+        // Si el producto ya existe, solo actualizamos la cantidad
+        productoExistente.cantidad += cantidad;
+    } else {
+        // Si el producto no existe, lo agregamos como un nuevo item
+        const nuevoProducto = {
+            usuario: usuario,
+            nombrePedido: nombrePedido,
+            cantidad: cantidad,
+            precio: precio
+        };
+        carrito.push(nuevoProducto);
+    }
+
+    // Guardamos el carrito actualizado en el localStorage
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+// Inicializar base de datos de usuarios si no existe
 if (!localStorage.getItem("usuarios")) {
     const usuariosIniciales = [
         { id: 1, nombre: "Carlos Gómez", rol: "comprador", contraseña: "1234" }
     ];
-    localStorage.setItem("usuarios", JSON.stringify(usuariosIniciales));
+    guardarUsuarios(usuariosIniciales);
 }
 
 // Manejo del formulario de inicio de sesión
@@ -39,15 +68,14 @@ loginForm.addEventListener('submit', (e) => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    // Obtener los usuarios y verificar si el usuario existe
     const usuarios = obtenerUsuarios();
-    const usuario = usuarios.find(u => u.nombre === username);
+    const usuario = usuarios.find(u => u.nombre === username && u.contraseña === password);
 
-    if (usuario && usuario.contraseña === password) {
-        // Redirigir a la página principal
-        window.location.href = 'principal.html';
+    if (usuario) {
+        alert(`¡Bienvenido, ${usuario.nombre}! Rol: ${usuario.rol}`);
+        window.location.href = 'principal.html'; // Redirigir a la página principal
     } else {
-        alert('Usuario o contraseña incorrectos');
+        alert('Usuario o contraseña incorrectos.');
     }
 });
 
