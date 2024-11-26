@@ -4,6 +4,21 @@ const signupForm = document.getElementById('signup-form');
 const switchToSignup = document.getElementById('switch-to-signup');
 const switchToLogin = document.getElementById('switch-to-login');
 
+if (!localStorage.getItem("usuarios")) {
+    // Si no existe, inicializamos con un usuario de ejemplo
+    const usuariosIniciales = [
+        { id: 1, nombre: "Juan Perez", Rol: "Vendedor", contraseña: "1234" , Conf1: 1 , Conf2: 1 },
+        { id: 2, nombre: "Maria Lopez", Rol: "Vendedor", contraseña: "1234", Conf1: 1 , Conf2: 1 },
+        { id: 3, nombre: "Carlos Gomez", Rol: "Vendedor", contraseña: "1234", Conf1: 1 , Conf2: 1 },
+        { id: 4, nombre: "Ana Fernandez", Rol: "Vendedor", contraseña: "1234", Conf1: 1 , Conf2: 1 },
+        { id: 5, nombre: "Juan Manuel", Rol: "Vendedor", contraseña: "1234", Conf1: 1 , Conf2: 1 },
+        { id: 6, nombre: "Natalia Tenopala", Rol: "Vendedor", contraseña: "1234", Conf1: 1 , Conf2: 1 },
+        { id: 7, nombre: "Daniel Hernandez", Rol: "Vendedor", contraseña: "1234", Conf1: 1 , Conf2: 1 },
+        { id: 8, nombre: "Angel Orozco", Rol: "Vendedor", contraseña: "1234", Conf1: 1 , Conf2: 1 },
+        { id: 9, nombre: "Hugo Santos", Rol: "Vendedor", contraseña: "1234", Conf1: 1 , Conf2: 1 }
+    ];
+    localStorage.setItem("usuarios", JSON.stringify(usuariosIniciales));
+}
 // Función para alternar entre formularios
 switchToSignup.addEventListener('click', () => {
     loginForm.classList.add('hidden');
@@ -54,14 +69,6 @@ function agregarAlCarrito(usuario, nombrePedido, cantidad, precio) {
     localStorage.setItem("carrito", JSON.stringify(carrito));
 }
 
-// Inicializar base de datos de usuarios si no existe
-if (!localStorage.getItem("usuarios")) {
-    const usuariosIniciales = [
-        { id: 1, nombre: "Carlos Gómez", rol: "comprador", contraseña: "1234" }
-    ];
-    guardarUsuarios(usuariosIniciales);
-}
-
 // Manejo del formulario de inicio de sesión
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -72,7 +79,7 @@ loginForm.addEventListener('submit', (e) => {
     const usuario = usuarios.find(u => u.nombre === username && u.contraseña === password);
 
     if (usuario) {
-        alert(`¡Bienvenido, ${usuario.nombre}! Rol: ${usuario.rol}`);
+        alert(`¡Bienvenido, ${usuario.nombre}! Rol: ${usuario.Rol}`);
         window.location.href = 'principal.html'; // Redirigir a la página principal
     } else {
         alert('Usuario o contraseña incorrectos.');
@@ -98,7 +105,9 @@ signupForm.addEventListener('submit', (e) => {
             id: usuarios.length > 0 ? usuarios[usuarios.length - 1].id + 1 : 1,
             nombre: newUsername,
             rol: userRole,
-            contraseña: newPassword
+            contraseña: newPassword,
+            Conf1:0,
+            Conf2:0
         };
 
         usuarios.push(nuevoUsuario);
