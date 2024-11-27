@@ -120,3 +120,96 @@ signupForm.addEventListener('submit', (e) => {
         alert('Las contraseñas no coinciden.');
     }
 });
+
+//------------------------------Funciones de los botones para la interfaz de los vendedores--------------------------------
+//función para regresar al inicio de la pagina de vendedores
+function paginaPrincipal(){
+    switch (paginaActual){
+        case 2: 
+            document.getElementById('opcionesVendedor').style.display = 'none';
+            break;
+        case 3:
+            document.getElementById('statsVendedor').style.display = 'none';
+            break;
+    }
+    alert('Bienvenido a MEXshop');
+    document.getElementById('mensaje-inicio').style.display = 'block';
+    paginaActual = 1;
+            
+}
+//función que muestra las opciones respecto a sus productos disponibles para el vendedor 
+function opcionesVendedor(){
+    switch (paginaActual){
+        case 1: 
+        document.getElementById('mensaje-inicio').style.display = 'none';
+            break;
+        case 3:
+            document.getElementById('statsVendedor').style.display = 'none';
+            break;
+    }
+    alert('Panel de opciones para vendedores');
+    document.getElementById('opcionesVendedor').style.display = 'block';
+    paginaActual = 2;
+}
+function nuevoArtículo(){
+    alert("Publicar nuevos productos");
+    document.getElementById('opcionesVendedor').style.display = 'none';
+    document.getElementById('nuevoProducto').style.display = 'block';
+}
+//función para el manejo de todos los botones de cancelar
+function cancelar(){
+    let cancelar = confirm("¿Seguro que quiere cancelar?");
+    if(cancelar){
+    document.getElementById('nuevoProducto').style.display = 'none';
+    opcionesVendedor();
+    }
+}
+function cancelarEliminar(){
+    let cancelar = confirm("¿Seguro que quiere cancelar?");
+    if(cancelar){
+    document.getElementById('eliminarProducto').style.display = 'none';
+    opcionesVendedor();
+    }
+}
+function cancelarModificar(){
+    let cancelar = confirm("¿Seguro que quiere cancelar?");
+    if(cancelar){
+    document.getElementById('modificarProducto').style.display = 'none';
+    opcionesVendedor();
+    }
+}
+
+//función para entrar a la interfaz de modificación de artículos ya a la venta
+function modificarArticulo(){
+    alert("modificación de artículos");
+    document.getElementById('opcionesVendedor').style.display = 'none';
+    document.getElementById('modificarProducto').style.display = 'block';
+    //se añadirá una vez que se tenga la base de datos
+}
+//función para eliminar artículos en venta
+function eliminarArtículo(){
+    alert("eliminación de artículos")
+    document.getElementById('opcionesVendedor').style.display = 'none';
+    document.getElementById('eliminarProducto').style.display = 'block';
+    //se añadirá una vez que se tenga la base de datos
+}
+//función para ver el reporte de ventas
+function verVentas(){
+    switch (paginaActual){
+        case 1: 
+        document.getElementById('mensaje-inicio').style.display = 'none';
+            break;
+        case 2:
+        document.getElementById('opcionesVendedor').style.display = 'none';
+            break;
+    }
+    console.log(paginaActual)
+    alert('Observar estadísticas de ventas');
+    document.getElementById('statsVendedor').style.display = 'block';
+    paginaActual = 3;
+}
+//gráfico para la visualización de ventas totales del usuario
+
+
+
+
