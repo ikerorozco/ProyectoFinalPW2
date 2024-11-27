@@ -165,8 +165,8 @@ button:hover {
     background-color: #084a7d;
 }
 
-/* Barra de navegación */
-.navbar {
+/* Barra de navegación para el comprador */
+.navbar-comprador {
     background-color: #0d479a;
     color: white;
     padding: 10px 20px;
@@ -179,8 +179,32 @@ button:hover {
     right: 0;
     z-index: 1000;
 }
+/* Barra de navegación para el vendedor */
+.navbar-vendedor {
+    background-color: #0d479a;
+    color: white;
+    padding: 10px 20px;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
 
-.navbar button {
+.navbar-vendedor button {
+    background-color: #fff;
+    color: #0d479a;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.navbar-comprador button {
     background-color: #fff;
     color: #0d479a;
     border: none;
@@ -191,7 +215,10 @@ button:hover {
     transition: background-color 0.3s ease;
 }
 
-.navbar button:hover {
+.navbar-comprador button:hover {
+    background-color: #084a7d;
+}
+.navbar-vendedor button:hover {
     background-color: #084a7d;
 }
 
@@ -347,4 +374,49 @@ button:hover {
 .message p {
     font-size: 16px;
     color: #666;
+}
+.opcionesVendedor-container {
+    display: none;
+}
+.btnOpciones {
+    background-color: #0d479a;
+    color: white;
+    margin-top: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.nuevoproducto-container {
+    display: none;
+}
+.btnVenta {
+    background-color: #0d479a;
+    color: white;
+    margin-top: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btnVentaCancelar {
+    background-color: #0d479a;
+    color: white;
+    margin-top: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.modificarProducto-container {
+    display: none;
+}
+.eliminarProducto-container {
+    display: none;
+}
+.statsVendedor-container{
+    display: none;
+}
+.graficoPrincipal{
+    float: right;
 }
