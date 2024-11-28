@@ -94,7 +94,7 @@
 <script src="database.js"></script>
 <script src="index.js"></script>
 <script>
-    
+    let paginaActual = 0;
     // Alerta que aparece cuando se accede a la página principal
     alert('Bienvenido a MEXshop');
 
@@ -107,7 +107,6 @@
 
     // Función para ir a la página de venta de artículos
     function venderArticulo() {
-        paginaActual = 1;
         // Ocultar los productos y mostrar las acciones disponibles para los vendedores
         document.getElementById('product-list').style.display = 'none';
         alert('Ir a la sección para vender artículos');
@@ -115,6 +114,8 @@
         document.getElementById('navbar-comprador').style.display = 'none';
         document.getElementById('navbar-vendedor').style.display = 'flex';
         // Aquí puedes redirigir a una página de venta de artículos o mostrar un formulario de venta
+        paginaActual = 1;
+        console.log(paginaActual)
     }
 
     // Función para ver el carrito

@@ -127,6 +127,8 @@ function paginaPrincipal(){
     switch (paginaActual){
         case 2: 
             document.getElementById('opcionesVendedor').style.display = 'none';
+            document.getElementById('modificarProducto').style.display = 'none';
+            document.getElementById('eliminarProducto').style.display = 'none';
             break;
         case 3:
             document.getElementById('statsVendedor').style.display = 'none';
@@ -135,6 +137,7 @@ function paginaPrincipal(){
     alert('Bienvenido a MEXshop');
     document.getElementById('mensaje-inicio').style.display = 'block';
     paginaActual = 1;
+    console.log(paginaActual)
             
 }
 //función que muestra las opciones respecto a sus productos disponibles para el vendedor 
@@ -143,6 +146,9 @@ function opcionesVendedor(){
         case 1: 
         document.getElementById('mensaje-inicio').style.display = 'none';
             break;
+        case 2:
+            document.getElementById('modificarProducto').style.display = 'none';
+            document.getElementById('eliminarProducto').style.display = 'none';
         case 3:
             document.getElementById('statsVendedor').style.display = 'none';
             break;
@@ -150,6 +156,7 @@ function opcionesVendedor(){
     alert('Panel de opciones para vendedores');
     document.getElementById('opcionesVendedor').style.display = 'block';
     paginaActual = 2;
+    console.log(paginaActual)
 }
 function nuevoArtículo(){
     alert("Publicar nuevos productos");
@@ -197,16 +204,18 @@ function eliminarArtículo(){
 function verVentas(){
     switch (paginaActual){
         case 1: 
-        document.getElementById('mensaje-inicio').style.display = 'none';
+            document.getElementById('mensaje-inicio').style.display = 'none';
             break;
         case 2:
-        document.getElementById('opcionesVendedor').style.display = 'none';
+            document.getElementById('opcionesVendedor').style.display = 'none';
+            document.getElementById('modificarProducto').style.display = 'none';
+            document.getElementById('eliminarProducto').style.display = 'none';
             break;
     }
-    console.log(paginaActual)
     alert('Observar estadísticas de ventas');
     document.getElementById('statsVendedor').style.display = 'block';
     paginaActual = 3;
+    console.log(paginaActual)
 }
 //gráfico para la visualización de ventas totales del usuario
 
