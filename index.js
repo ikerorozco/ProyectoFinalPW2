@@ -79,7 +79,7 @@ loginForm.addEventListener('submit', (e) => {
     const usuario = usuarios.find(u => u.nombre === username && u.contraseña === password);
 
     if (usuario) {
-        alert(`¡Bienvenido, ${usuario.nombre}! Rol: ${usuario.Rol}`);
+        alert(`¡Bienvenido, ${usuario.nombre}! Rol: ${usuario.rol}`);
         window.location.href = 'principal.html'; // Redirigir a la página principal
     } else {
         alert('Usuario o contraseña incorrectos.');
@@ -121,7 +121,6 @@ signupForm.addEventListener('submit', (e) => {
     }
 });
 
-//------------------------------Funciones de los botones para la interfaz de los vendedores--------------------------------
 //función para regresar al inicio de la pagina de vendedores
 function paginaPrincipal(){
     switch (paginaActual){
@@ -185,7 +184,6 @@ function cancelarModificar(){
     opcionesVendedor();
     }
 }
-
 //función para entrar a la interfaz de modificación de artículos ya a la venta
 function modificarArticulo(){
     alert("modificación de artículos");
@@ -218,7 +216,3 @@ function verVentas(){
     console.log(paginaActual)
 }
 //gráfico para la visualización de ventas totales del usuario
-
-
-
-
