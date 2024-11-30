@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEXshop - Carrito de Compras</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Enlace de Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div id="navbar-comprador" class="navbar-comprador">
+        <button onclick="cerrarSesion()">Cerrar sesión</button>
+        <button onclick="verCarrito()">Carrito</button>
+    </div>
+
+    <!-- Contenedor principal -->
+    <div id="mensaje-inicio" class="main-container">
+        <h1>¡Bienvenido a MEXshop!</h1>
+        <p>¡Tu tienda de compra y venta en línea!</p>
+        
+        <!-- Contenedor de productos -->
+        <div id="product-list" class="product-list">
+            <!-- Los productos se agregarán dinámicamente aquí -->
+        </div>
+    </div>
+
+    <!-- Carrito de compras -->
+    <div id="carrito" class="carrito-container">
+        <h2>Carrito de Compras</h2>
+        <div id="carrito-items"></div>
+        <p>Total: $<span id="total-price">0</span></p>
+        <button onclick="realizarPago()">Realizar Pago</button>
+    </div>
+
+    <!-- Formulario de pago -->
+    <div id="formulario-pago" class="formulario-pago-container" style="display: none;">
+        <div class="container">
+           <h3 class="text-center mb-4">Formulario de Pago</h3>
+           <p class="text-center mb-4">Por favor, completa los campos a continuación para realizar tu pago.</p>
+        
+            <form onsubmit="procesarPago(event)" id="formPago">
+                <div class="form-group">
+                  <label for="nombre-titular">Nombre del titular:</label>
+                  <input type="text" id="nombre-titular" class="form-control" placeholder="Nombre completo" required>
+                </div>
+
+                <div class="form-group">
+                   <label for="numero-tarjeta">Número de tarjeta:</label>
+                   <input type="text" id="numero-tarjeta" class="form-control" placeholder="XXXX XXXX XXXX XXXX" required maxlength="19" pattern="[\d\s]{16,19}">
+                </div>
+
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="fecha-vencimiento">Fecha de vencimiento:</label>
+                            <input type="month" id="fecha-vencimiento" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                           <label for="cvv">CVV (Código de seguridad):</label>
+                           <input type="text" id="cvv" class="form-control" placeholder="XXX" required maxlength="3" pattern="\d{3}">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block">Realizar Pago</button>
+            </form>
+
+            <!-- Botón para cancelar el pago -->
+            <button onclick="cancelarPago()" class="btn btn-danger btn-block mt-3">Cancelar</button>
+        </div>
+    </div>
+
+
+    <script src="database.js"></script>
+    <script>
+        // Funciones de sesión y navegación
+        function cerrarSesion() {
+            alert('Has cerrado sesión');
+            window.location.href = 'index.html'; // Redirigir a la página de login
+        }
+
+        function verCarrito() {
+            document.getElementById('mensaje-inicio').style.display = 'none';
+            document.getElementById('product-list').style.display = 'none';
+            document.getElementById('carrito').style.display = 'block';
+            mostrarCarrito();
+        }
+
+        // Mostrar productos disponibles
+        function mostrarProductos() {
+            const productos = obtenerProductos();
+            const productListContainer = document.getElementById("product-list");
+
+            productos.forEach((producto) => {
+                const productElement = document.createElement("div");
+                productElement.classList.add("product");
+
+                productElement.innerHTML = `
+                    <h3>${producto.nombre}</h3>
+                    <p>Precio: $${producto.precio}</p>
+                    <p>Vendedor: ${producto.vendedor}</p>
+                    <p>Descripción: ${producto.Descripcion}</p>
+                    <button onclick="agregarAlCarrito('${producto.nombre}', ${producto.precio})">Agregar al Carrito</button>
+                `;
+                productListContainer.appendChild(productElement);
+            });
+        }
+
+        // Agregar producto al carrito
+        function agregarAlCarrito(nombreProducto, precio) {
+            const carrito = obtenerCarrito();
+            const productoExistente = carrito.find(item => item.nombrePedido === nombreProducto);
+
+            if (productoExistente) {
+                productoExistente.cantidad += 1;
+            } else {
+                const nuevoProducto = {
+                    nombrePedido: nombreProducto,
+                    cantidad: 1,
+                    precio: precio
+                };
+                carrito.push(nuevoProducto);
+            }
+
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+            mostrarCarrito();
+        }
+
+        // Mostrar carrito de compras
+        function mostrarCarrito() {
+            const carrito = obtenerCarrito();
+            const carritoContainer = document.getElementById('carrito-items');
+            carritoContainer.innerHTML = ''; // Limpiar carrito
+
+            let total = 0;
+            carrito.forEach((producto, index) => {
+                total += producto.precio * producto.cantidad;
+                const itemElement = document.createElement('div');
+                itemElement.innerHTML = `
+                    <p>${producto.nombrePedido} - $${producto.precio} x ${producto.cantidad}</p>
+                    <button onclick="eliminarDelCarrito(${index})">Eliminar</button>
+                `;
+                carritoContainer.appendChild(itemElement);
+            });
+
+            document.getElementById('total-price').innerText = total;
+        }
+
+        // Eliminar producto del carrito
+        function eliminarDelCarrito(index) {
+            const carrito = obtenerCarrito();
+            carrito.splice(index, 1); // Eliminar producto por índice
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+            mostrarCarrito();
+        }
+
+        // Procesar pago
+        function realizarPago() {
+            const confirmacion = confirm("¿Deseas realizar el pago?");
+            if (confirmacion) {
+                document.getElementById('carrito').style.display = 'none';
+                document.getElementById('formulario-pago').style.display = 'block';
+            }
+        }
+
+        // Procesar el formulario de pago
+        function procesarPago(event) {
+            event.preventDefault();
+            const nombreTitular = document.getElementById('nombre-titular').value;
+            const numeroTarjeta = document.getElementById('numero-tarjeta').value;
+            const cvv = document.getElementById('cvv').value;
+
+            if (nombreTitular && numeroTarjeta && cvv) {
+                alert('Pago realizado con éxito');
+                agregarTransacciones();
+                window.location.href = 'gracias.html'; // Redirigir a página de agradecimiento
+            } else {
+                alert('Por favor, complete todos los campos.');
+            }
+        }
+
+        // Cancelar el pago
+        function cancelarPago() {
+            document.getElementById('formulario-pago').style.display = 'none';
+            document.getElementById('carrito').style.display = 'block';
+        }
+
+        // Funciones de base de datos (localStorage)
+        function obtenerProductos() {
+            return JSON.parse(localStorage.getItem("productos"));
+        }
+
+        function obtenerCarrito() {
+            return JSON.parse(localStorage.getItem("carrito"));
+        }
+
+        function agregarTransacciones() {
+            const carrito = obtenerCarrito();
+            const transacciones = obtenerTransaccion();
+
+            carrito.forEach(producto => {
+                transacciones.push(producto);
+            });
+
+            localStorage.setItem("transaccion", JSON.stringify(transacciones));
+        }
+
+        function obtenerTransaccion() {
+            return JSON.parse(localStorage.getItem("transaccion"));
+        }
+
+        // Cargar productos cuando la página cargue
+        window.onload = function() {
+            mostrarProductos();
+        };
+    </script>
+</body>
+</html>
