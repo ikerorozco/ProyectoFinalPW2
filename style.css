@@ -420,3 +420,9 @@ button:hover {
 .graficoPrincipal{
     float: right;
 }
+.subidaArchivos-container{
+    display: none;
+}
+.btnConfirmarRoles{
+    display: none;
+}
