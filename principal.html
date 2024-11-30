@@ -11,7 +11,7 @@
     <!-- Barra de navegación para el comprador-->
     <div id = "navbar-comprador" class="navbar-comprador">
         <button onclick="cerrarSesion()">Cerrar sesión</button>
-        <button onclick="venderArticulo()">Vender artículos</button>
+        <button onclick="verificarRoles()">Vender artículos</button>
         <button onclick="verCarrito()">Carrito</button>
     </div>
 
@@ -41,36 +41,37 @@
     </div>
 
     <!--Formato para la adición de un nuevo producto a la venta-->
-    <div id = "nuevoProducto" class = "nuevoproducto-container">
-        <form> 
-            <div class = "nuevaInformacion">
+    <div id="nuevoProducto" class="nuevoproducto-container">
+        <form id="formNuevoProducto"> <!-- Cambié el id del formulario -->
+            <div class="nuevaInformacion">
                 <div class="input-group">
-                    <label for="nuevo-producto-nombre">¿Cuál es el nombre del producto que quieres vender?</label>
+                    <label>¿Cuál es el nombre del producto que quieres vender?</label>
                     <input type="text" id="nuevo-producto" placeholder="Ingresa un nombre" required>
                 </div>
                 <div class="input-group">
-                    <label for="nuevo-precio">¿Cuál es el precio para el nuevo producto?</label>
+                    <label>¿Cuál es el precio para el nuevo producto?</label>
                     <input type="number" id="nuevo-precio" placeholder="Ingresa el precio en MXN" required>
                 </div>
                 <div class="input-group">
-                    <label for="nuevo-descripcion">Agrega una breve descripción de tu nuevo producto</label>
+                    <label>Agrega una breve descripción de tu nuevo producto</label>
                     <input type="text" id="nuevo-descripcion" placeholder="Ingresa medidas o especificaciones importantes" required>
                 </div>
                 <div class="input-group">
-                    <label for="nuevo-stock">Agrega la cantidad de productos disponibles para la venta</label>
+                    <label>Agrega la cantidad de productos disponibles para la venta</label>
                     <input type="number" id="nuevo-stock" placeholder="Cantidad" required>
                 </div>
             </div>
-            <div class = "nuevaImagen">
-                <div class = input-image>
-                    <label for = "nuevoproducto-imagen">Sube una imagen o fotografía referente al producto que pondras a la venta</label>
+            <div class="nuevaImagen">
+                <div class="input-image">
+                    <label for="nuevoproducto-imagen">Sube una imagen o fotografía referente al producto que pondrás a la venta</label>
                     <input type="file" id="nuevo-imagen" required>
                 </div> 
             </div>
-            <button onclick= "agregarProducto()" type="submit" class="btnVenta">Publicar artículo a la venta</button>
+            <button type="submit" class="btnVenta">Publicar artículo a la venta</button> <!-- Cambié onclick a type="submit" -->
         </form>
-            <button onclick="cancelar()" class="btnVentaCancelar">Cancelar publicación</button>
+        <button onclick="cancelar()" class="btnVentaCancelar">Cancelar publicación</button>
     </div>
+
 
     <!--Formato para la modificación de un producto a la venta-->
     <div id ="modificarProducto" class = "modificarProducto-container">
@@ -90,6 +91,20 @@
         </div>-->
     </div>
 
+    <!-- Formato para usuarios no vendedores -->
+    <div id="subidaArchivos" class="subidaArchivos-container">
+        <h1>¡Ingresa los siguientes documentos para comenzar a vender y generar un ingreso extra!</h1>
+        <h3>Los documentos son para poder realizar el pago de impuestos y verificar tu identidad</h3>
+
+        <label for="RFC">Sube aquí tu constancia de Situación Fiscal</label>
+        <input type="file" id="RFC" onchange="return validarExt()" required>
+
+        <label for="ID">Sube aquí tu identificación oficial</label>
+        <label for="ID">Puede ser Pasaporte, INE, Licencia de conducir o Cartilla Militar</label>
+        <input type="file" id="ID" onchange="return validarExt()" required>
+        <button id="confirmarRoles" onclick = "confirmarRoles()" class = "btnConfirmarRoles">Subir archivos</button>
+    </div>
+
 </body>
 <script src="database.js"></script>
 <script src="index.js"></script>
@@ -103,19 +118,6 @@
         // Puedes redirigir al usuario al login o eliminar su sesión si fuera necesario
         alert('Has cerrado sesión');
         window.location.href = 'index.html'; // Redirigir a la página de login
-    }
-
-    // Función para ir a la página de venta de artículos
-    function venderArticulo() {
-        // Ocultar los productos y mostrar las acciones disponibles para los vendedores
-        document.getElementById('product-list').style.display = 'none';
-        alert('Ir a la sección para vender artículos');
-        document.getElementById('navbar-comprador').style.display = 'none';
-        document.getElementById('navbar-comprador').style.display = 'none';
-        document.getElementById('navbar-vendedor').style.display = 'flex';
-        // Aquí puedes redirigir a una página de venta de artículos o mostrar un formulario de venta
-        paginaActual = 1;
-        console.log(paginaActual)
     }
 
     // Función para ver el carrito

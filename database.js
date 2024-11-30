@@ -62,10 +62,8 @@ function obtenerTransaccion() {
 // Función para agregar un producto al carrito
 function agregarAlCarrito(usuario,nombreVendedor, nombrePedido, cantidad, precio) {
     const carrito = obtenerCarrito();
-
     // Verificamos si el producto ya está en el carrito
     const productoExistente = carrito.find(item => item.nombrePedido === nombrePedido && item.usuario === usuario);
-    
     if (productoExistente) {
         // Si el producto ya existe, solo actualizamos la cantidad
         productoExistente.cantidad += cantidad;
@@ -76,8 +74,7 @@ function agregarAlCarrito(usuario,nombreVendedor, nombrePedido, cantidad, precio
             nombreVendedor:nombreVendedor,
             nombrePedido: nombrePedido,
             cantidad: cantidad,
-            precio: precio
-            
+            precio: precio 
         };
         carrito.push(nuevoProducto);
     }
@@ -94,10 +91,8 @@ function agregarTransacciones() {
     // Recorremos los productos del carrito
     carrito.forEach(productoCarrito => {
         const { usuario, nombrePedido, nombreVendedor, cantidad, precio } = productoCarrito;
-
         // Verificamos si el producto ya está en transacciones
         const productoExistente = transacciones.find(item => item.nombrePedido === nombrePedido && item.usuario === usuario);
-
         if (productoExistente) {
             // Si el producto ya existe, actualizamos la cantidad
             productoExistente.cantidad += cantidad;
@@ -116,18 +111,55 @@ function agregarTransacciones() {
 
     // Guardamos las transacciones actualizadas en el localStorage
     localStorage.setItem("transacciones", JSON.stringify(transacciones));
-
     console.log("Transacciones actualizadas:", transacciones);
 }
 
 
 // Función para agregar un producto
-function agregarProducto(producto) {
-    const productos = obtenerProductos();
-    producto.id = productos.length + 1; // Generamos un ID único para el producto
-    productos.push(producto);
+function agregarProducto(event) {
+    // Prevenir el envío del formulario y recarga de la página
+    event.preventDefault();
+
+    // Obtener los productos del localStorage
+    let productos = JSON.parse(localStorage.getItem("productos"));
+    if (!productos) {
+        productos = [];  // Si no existen productos, inicializamos el array vacío
+    }
+
+    // Obtener los valores de los campos del formulario
+    const nombreNuevo = document.getElementById('nuevo-producto').value;
+    const precioNuevo = parseFloat(document.getElementById('nuevo-precio').value); // Asegúrate de convertir el precio en número
+    const descripcionNuevo = document.getElementById('nuevo-descripcion').value;
+    const stockNuevo = parseInt(document.getElementById('nuevo-stock').value); // Asegúrate de convertir el stock a número
+    const usuarioGuardado = JSON.parse(localStorage.getItem("usuarioActual"));
+
+    // Crear el objeto nuevo producto
+    const siguienteId = productos.length > 0 ? productos[productos.length - 1].id + 1 : 1;
+    const nuevoProducto = {
+        id: siguienteId,
+        nombre: nombreNuevo,
+        precio: precioNuevo,
+        vendedor: usuarioGuardado.nombre,
+        Descripcion: descripcionNuevo,
+        Stock: stockNuevo,
+        TotalVentas: 0
+    };
+
+    // Agregar el nuevo producto al array de productos
+    productos.push(nuevoProducto);
+
+    // Guardar la lista de productos en el localStorage
     localStorage.setItem("productos", JSON.stringify(productos));
+
+    // Confirmación y limpieza de formulario
+    alert('Producto publicado con éxito');
+    console.log(localStorage.getItem("productos"))
+    document.getElementById("formNuevoProducto").reset(); // Limpiar el formulario
 }
+
+// Asignar la función al evento de envío del formulario
+document.getElementById("formNuevoProducto").addEventListener("submit", agregarProducto);
+
 
 // Función para registrar un nuevo usuario
 function registrarUsuario(usuario) {
