@@ -136,8 +136,7 @@ function paginaPrincipal(){
     document.getElementById('mensaje-inicio').style.display = 'block';
     document.getElementById('product-list').style.display = 'flex';
     paginaActual = 1;
-    console.log(paginaActual)
-            
+   
 }
 //función que muestra las opciones respecto a sus productos disponibles para el vendedor 
 function opcionesVendedor(){
@@ -182,41 +181,12 @@ function cancelarModificar(){
     let cancelar = confirm("¿Seguro que quiere cancelar?");
     if(cancelar){
     document.getElementById('modificarProducto').style.display = 'none';
+    document.getElementById('modificaProducto').style.display = 'none';
     opcionesVendedor();
     }
 }
-//función para entrar a la interfaz de modificación de artículos ya a la venta
-function modificarArticulo(){
-    alert("modificación de artículos");
-    document.getElementById('opcionesVendedor').style.display = 'none';
-    document.getElementById('modificarProducto').style.display = 'block';
-    //se añadirá una vez que se tenga la base de datos
-}
-//función para eliminar artículos en venta
-function eliminarArtículo(){
-    alert("eliminación de artículos")
-    document.getElementById('opcionesVendedor').style.display = 'none';
-    document.getElementById('eliminarProducto').style.display = 'block';
-    //se añadirá una vez que se tenga la base de datos
-}
-//función para ver el reporte de ventas
-function verVentas(){
-    switch (paginaActual){
-        case 1: 
-            document.getElementById('mensaje-inicio').style.display = 'none';
-            break;
-        case 2:
-            document.getElementById('opcionesVendedor').style.display = 'none';
-            document.getElementById('nuevoProducto').style.display = 'none';
-            document.getElementById('modificarProducto').style.display = 'none';
-            document.getElementById('eliminarProducto').style.display = 'none';
-            break;
-    }
-    alert('Observar estadísticas de ventas');
-    document.getElementById('statsVendedor').style.display = 'block';
-    paginaActual = 3;
-    console.log(paginaActual)
-}
+
+
 
 //verificación de roles de los usuarios que permitirán la venta de los artículos
 function verificarRoles(){
@@ -236,7 +206,7 @@ function verificarRoles(){
  // Función para ir a la página de venta de artículos
  function venderArticulo() {
     // Ocultar los productos y mostrar las acciones disponibles para los vendedores
-    document.getElementById('product-list').style.display = 'none';
+    document.getElementById('product-list').style.display = 'flex';
     alert('Ir a la sección para vender artículos');
     document.getElementById('navbar-comprador').style.display = 'none';
     document.getElementById('navbar-comprador').style.display = 'none';

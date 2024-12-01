@@ -3,9 +3,9 @@ if (!localStorage.getItem("productos")) {
     // Si no existe, inicializamos con algunos productos de ejemplo
     const productosIniciales = [
         { id: 1, nombre: "Laptop HP", precio: 8500, vendedor: "Juan Perez", Descripcion: "Potente y elegante laptop con procesador de última generación, pantalla Full HD, almacenamiento rápido SSD y batería de larga duración", Stock: 40,TotalVentas: 20},
-        { id: 2, nombre: "Teléfono Xiaomi", precio: 3500, vendedor: "Maria Lopez", Descripcion: "Smartphone moderno con cámara de alta resolución, batería de larga duración, pantalla AMOLED vibrante y rendimiento rápido", Stock: 37,TotalVentas: 19 },
-        { id: 3, nombre: "Cámara Digital Canon", precio: 2500, vendedor: "Carlos Gomez", Descripcion: "Cámara profesional con sensor de alta resolución, enfoque rápido, estabilización avanzada y conectividad inalámbrica", Stock: 7,TotalVentas: 17 },
-        { id: 4, nombre: "Silla Gaming", precio: 1500, vendedor: "Ana Fernandez", Descripcion: "Silla gamer ergonómica con diseño premium, cojines ajustables, reclinación de 180°, reposabrazos 4D y materiales duraderos", Stock: 11,TotalVentas: 13 },
+        { id: 2, nombre: "Teléfono Xiaomi", precio: 3500, vendedor: "Juan Perez", Descripcion: "Smartphone moderno con cámara de alta resolución, batería de larga duración, pantalla AMOLED vibrante y rendimiento rápido", Stock: 37,TotalVentas: 19 },
+        { id: 3, nombre: "Cámara Digital Canon", precio: 2500, vendedor: "Juan Perez", Descripcion: "Cámara profesional con sensor de alta resolución, enfoque rápido, estabilización avanzada y conectividad inalámbrica", Stock: 7,TotalVentas: 17 },
+        { id: 4, nombre: "Silla Gaming", precio: 1500, vendedor: "Juan Perez", Descripcion: "Silla gamer ergonómica con diseño premium, cojines ajustables, reclinación de 180°, reposabrazos 4D y materiales duraderos", Stock: 11,TotalVentas: 13 },
         { id: 5, nombre: "Control para Xbox", precio: 1463, vendedor: "Juan Manuel", Descripcion: "Control de Xbox con diseño ergonómico, respuesta táctil precisa, gatillos sensibles y conectividad inalámbrica", Stock: 13,TotalVentas: 11 },
         { id: 6, nombre: "Bolsa para Dama", precio: 3300, vendedor: "Natalia Tenopala", Descripcion: "Bolsa para dama con diseño elegante, amplio espacio interior, compartimentos organizados y materiales de alta calidad", Stock: 17,TotalVentas: 7 },
         { id: 7, nombre: "I phone 13", precio: 8200, vendedor: "Daniel Hernandez", Descripcion: "iPhone 13 con pantalla Super Retina XDR, chip A15 Bionic, cámara de alta calidad y batería de larga duración. Rendimiento excepcional", Stock: 19,TotalVentas: 5 },
@@ -117,23 +117,17 @@ function agregarTransacciones() {
 
 // Función para agregar un producto
 function agregarProducto(event) {
-    // Prevenir el envío del formulario y recarga de la página
     event.preventDefault();
-
-    // Obtener los productos del localStorage
     let productos = JSON.parse(localStorage.getItem("productos"));
     if (!productos) {
-        productos = [];  // Si no existen productos, inicializamos el array vacío
+        productos = []; 
     }
 
-    // Obtener los valores de los campos del formulario
     const nombreNuevo = document.getElementById('nuevo-producto').value;
-    const precioNuevo = parseFloat(document.getElementById('nuevo-precio').value); // Asegúrate de convertir el precio en número
+    const precioNuevo = parseFloat(document.getElementById('nuevo-precio').value); 
     const descripcionNuevo = document.getElementById('nuevo-descripcion').value;
-    const stockNuevo = parseInt(document.getElementById('nuevo-stock').value); // Asegúrate de convertir el stock a número
+    const stockNuevo = parseInt(document.getElementById('nuevo-stock').value); 
     const usuarioGuardado = JSON.parse(localStorage.getItem("usuarioActual"));
-
-    // Crear el objeto nuevo producto
     const siguienteId = productos.length > 0 ? productos[productos.length - 1].id + 1 : 1;
     const nuevoProducto = {
         id: siguienteId,
@@ -144,27 +138,19 @@ function agregarProducto(event) {
         Stock: stockNuevo,
         TotalVentas: 0
     };
-
-    // Agregar el nuevo producto al array de productos
     productos.push(nuevoProducto);
-
-    // Guardar la lista de productos en el localStorage
     localStorage.setItem("productos", JSON.stringify(productos));
-
-    // Confirmación y limpieza de formulario
     alert('Producto publicado con éxito');
     console.log(localStorage.getItem("productos"))
-    document.getElementById("formNuevoProducto").reset(); // Limpiar el formulario
+    document.getElementById("formNuevoProducto").reset();
 }
 
-// Asignar la función al evento de envío del formulario
 document.getElementById("formNuevoProducto").addEventListener("submit", agregarProducto);
-
 
 // Función para registrar un nuevo usuario
 function registrarUsuario(usuario) {
     const usuarios = obtenerUsuarios();
-    usuario.id = usuarios.length + 1; // Generamos un ID único para el usuario
+    usuario.id = usuarios.length + 1; 
     usuarios.push(usuario);
     localStorage.setItem("usuarios", JSON.stringify(usuarios));
 }
@@ -174,3 +160,180 @@ function autenticarUsuario(correo, contraseña) {
     const usuarios = obtenerUsuarios();
     return usuarios.find(usuario => usuario.nombre === correo && usuario.contraseña === contraseña);
 }
+function verVentas(){
+    switch (paginaActual){
+        case 1: 
+            document.getElementById('mensaje-inicio').style.display = 'none';
+            break;
+        case 2:
+            document.getElementById('opcionesVendedor').style.display = 'none';
+            document.getElementById('nuevoProducto').style.display = 'none';
+            document.getElementById('modificarProducto').style.display = 'none';
+            document.getElementById('eliminarProducto').style.display = 'none';
+            break;
+    }
+    document.getElementById('statsVendedor').style.display = 'grid';
+} 
+function ventasTotales(){
+    alert('Observar estadísticas de ventas');
+    paginaActual = 3;
+    console.log(paginaActual);
+    const usuarioGuardado = JSON.parse(localStorage.getItem("usuarioActual"));
+    const vendedor = usuarioGuardado.nombre;
+    const productos = JSON.parse(localStorage.getItem("productos"));
+    const productosVendedor = productos.filter(producto => producto.vendedor === vendedor);
+    const nombresProductos = productosVendedor.map(producto => producto.nombre);
+    const totalVentas = productosVendedor.map(producto => parseInt(producto.TotalVentas)|| 0);
+
+    //creacion de grafica
+    const ctx = document.getElementById("graficaVentas").getContext("2d");  
+    new Chart(ctx, {
+        type: 'bar',  // Tipo de gráfico (barras)
+        data: {
+            labels: nombresProductos,
+            datasets: [{
+                label: 'Total Ventas de productos',
+                data: totalVentas,  // Datos de ventas
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Color de las barras
+                borderColor: 'rgba(75, 192, 192, 1)',  // Color del borde de las barras
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    console.log(productos);
+}  
+//función para eliminar artículos en venta
+function eliminarArticulo() {
+    alert("Aqui se muestran los artículos a la venta");
+    document.getElementById('opcionesVendedor').style.display = 'none';
+    document.getElementById('eliminarProducto').style.display = 'block';
+
+    const usuarioGuardado = JSON.parse(localStorage.getItem("usuarioActual"));
+    const vendedor = usuarioGuardado.nombre;
+    const productos = JSON.parse(localStorage.getItem("productos"));
+    const productosVendedor = productos.filter(producto => producto.vendedor === vendedor);
+
+    const productListContainer = document.getElementById('productListContainerDos'); 
+    productListContainer.innerHTML = '';
+
+    productosVendedor.forEach((producto) => {
+        const productElement = document.createElement("div");
+        productElement.classList.add("productosVendedor");
+        productElement.innerHTML = `
+            <h3>${producto.nombre}</h3>
+            <p>Precio: $${producto.precio}</p>
+            <p>Vendedor: ${producto.vendedor}</p>
+            <p>Descripción: ${producto.Descripcion}</p>
+            <p>Stock: ${producto.Stock}</p>
+            <button onclick="eliminarProducto('${producto.nombre}')">Eliminar</button>
+        `;
+
+        productListContainer.appendChild(productElement);
+    });
+
+}
+function eliminarProducto(nombreProducto) {
+    const productos = JSON.parse(localStorage.getItem("productos"));
+    const productosActualizados = productos.filter(producto => producto.nombre !== nombreProducto);
+    localStorage.setItem("productos", JSON.stringify(productosActualizados));
+    eliminarArticulo();
+
+}
+//modificacion de artículos----------------------------------------------------------------------------------------
+function modificarArticulo() {
+    alert("Aqui se muestran los artículos a la venta");
+    document.getElementById('opcionesVendedor').style.display = 'none';
+    document.getElementById('modificarProducto').style.display = 'block';
+
+    const usuarioGuardado = JSON.parse(localStorage.getItem("usuarioActual"));
+    const vendedor = usuarioGuardado.nombre;
+    const productos = JSON.parse(localStorage.getItem("productos"));
+
+    const productosVendedor = productos.filter(producto => producto.vendedor === vendedor);
+    const productListContainer = document.getElementById('productListContainerTres'); 
+    productListContainer.innerHTML = '';
+
+    productosVendedor.forEach((producto) => {
+        const productElement = document.createElement("div");
+        productElement.classList.add("productosVendedor");
+        productElement.innerHTML = `
+            <h3>${producto.nombre}</h3>
+            <p>Precio: $${producto.precio}</p>
+            <p>Vendedor: ${producto.vendedor}</p>
+            <p>Descripción: ${producto.Descripcion}</p>
+            <p>Stock: ${producto.Stock}</p>
+            <button onclick="modificarProducto('${producto.id}')">Modificar producto</button>
+        `;
+        productListContainer.appendChild(productElement);
+    });
+}
+function modificarProducto(id){
+    id = id*1
+    console.log(typeof id)
+    document.getElementById("productListContainerTres").style.display='none';
+    document.getElementById("modificaProducto").style.display='block';
+    const productos = JSON.parse(localStorage.getItem("productos"));
+    productoLocal = productos.find(producto => producto.id === id);
+    console.log(productoLocal)
+    console.log(productoLocal.nombre)
+    //para que se mantengan los valores
+    document.getElementById('modifica-producto').value = productoLocal.nombre;
+    document.getElementById('modifica-precio').value = productoLocal.precio;
+    document.getElementById('modifica-descripcion').value = productoLocal.Descripcion;
+    document.getElementById('modifica-stock').value = productoLocal.Stock;
+    document.getElementById('guardar-cambios').onclick = function () {
+        // Obtener los nuevos valores del formulario
+        const nombreNuevo = document.getElementById('nuevo-producto').value;
+        const precioNuevo = parseFloat(document.getElementById('nuevo-precio').value); 
+        const descripcionNuevo = document.getElementById('nuevo-descripcion').value;
+        const stockNuevo = parseInt(document.getElementById('nuevo-stock').value); 
+
+        // Crear el nuevo objeto de producto con los valores modificados
+        const productoModificado = { 
+            id: productoLocal.id,
+            nombre: nombreNuevo,          
+            precio: precioNuevo,          
+            vendedor: productoLocal.vendedor,
+            Descripcion: descripcionNuevo,
+            Stock: stockNuevo,            
+            TotalVentas: productoLocal.TotalVentas
+        };
+    productoLocal = productoModificado;
+    localStorage.setItem("productos", JSON.stringify(productoLocal));
+    alert("Producto modificado correctamente.");
+    document.getElementById("modificaProducto").style.display = 'none';
+    document.getElementById("productListContainerTres").style.display = 'block';
+    }
+
+}
+
+function actualizarVistaProductos() {
+    const productListContainer = document.getElementById('productListContainerTres');
+    productListContainer.innerHTML = '';
+    const productos = JSON.parse(localStorage.getItem("productos"));
+    productos.forEach((producto) => {
+        const productElement = document.createElement("div");
+        productElement.classList.add("productosVendedor");
+        productElement.innerHTML = `
+            <h3>${producto.nombre}</h3>
+            <p>Precio: $${producto.precio}</p>
+            <p>Vendedor: ${producto.vendedor}</p>
+            <p>Descripción: ${producto.Descripcion}</p>
+            <p>Stock: ${producto.Stock}</p>
+            <button onclick="modificarProducto(${producto.id})">Modificar producto</button>
+        `;
+        productListContainer.appendChild(productElement);
+    });
+}
+    
+
+
+    
