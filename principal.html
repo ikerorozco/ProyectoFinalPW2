@@ -155,7 +155,83 @@
     function comprarProducto(nombreProducto) {
         alert(`¡Has comprado el producto: ${nombreProducto}!`);
     }
-
+// Función para obtener productos (puedes obtenerlos desde una base de datos o desde un archivo JSON)
+function obtenerProductos() {
+            return [
+                {
+                    nombre: "Laptop HP",
+                    precio: 8500,
+                    vendedor: "Juan Perez",
+                    Descripcion: "Potente y elegante laptop con procesador de última generación.",
+                    Stock: 40,
+                    imagen: "imagenes/laptophp.jpg"
+                },
+                {
+                    nombre: "Teléfono Xiaomi",
+                    precio: 3500,
+                    vendedor: "Maria Lopez",
+                    Descripcion: "Smartphone moderno con cámara de alta resolución.",
+                    Stock: 37,
+                    imagen: "imagenes/xiaomi.jpg"
+                },
+                {
+                    nombre: "Cámara Digital Canon",
+                    precio: 2500,
+                    vendedor: "Carlos Gomez",
+                    Descripcion: "Cámara profesional con sensor de alta resolución.",
+                    Stock: 7,
+                    imagen: "imagenes/canon.jpg"
+                },
+                {
+                    nombre: "Silla Gaming",
+                    precio: 1500,
+                    vendedor: "Ana Fernandez",
+                    Descripcion: "Silla gamer ergonómica con diseño premium.",
+                    Stock: 11,
+                    imagen: "imagenes/silla.jpg"
+                },
+                {
+                    nombre: "Control para Xbox",
+                    precio: 1463,
+                    vendedor: "Juan Manuel",
+                    Descripcion: "Control de Xbox con diseño ergonómico y conectividad inalámbrica.",
+                    Stock: 13,
+                    imagen: "imagenes/control.jpg"
+                },
+                {
+                    nombre: "Bolsa de Dama",
+                    precio: 1200,
+                    vendedor: "Sofía Pérez",
+                    Descripcion: "Elegante bolsa de dama de cuero.",
+                    Stock: 25,
+                    imagen: "imagenes/bolsa.jpg"
+                },
+                {
+                    nombre: "iPhone 14",
+                    precio: 19999,
+                    vendedor: "Roberto García",
+                    Descripcion: "iPhone 14 con cámara de 48 MP y pantalla Super Retina XDR.",
+                    Stock: 15,
+                    imagen: "imagenes/iphone13.jpg"
+                },
+                {
+                    nombre: "Audífonos Bluetooth",
+                    precio: 850,
+                    vendedor: "Carla Rodríguez",
+                    Descripcion: "Audífonos inalámbricos con cancelación de ruido y batería de larga duración.",
+                    Stock: 30,
+                    imagen: "imagenes/audifonos.jpg"
+                },
+                {
+                    nombre: "Zapatos Adidas",
+                    precio: 2300,
+                    vendedor: "Juan Martínez",
+                    Descripcion: "Zapatillas deportivas de Adidas.",
+                    Stock: 50,
+                    imagen: "imagenes/adidas.jpg"
+                }
+            ];
+        }
     // Mostrar los productos cuando la página cargue
     mostrarProductos();
 </script>
