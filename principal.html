@@ -9,13 +9,13 @@
 </head>
 <body>
     <!-- Barra de navegación para el comprador-->
-    <div id = "navbar-comprador" class="navbar-comprador">
+    <div id="navbar-comprador" class="navbar-comprador">
         <button onclick="cerrarSesion()">Cerrar sesión</button>
-        <button onclick="verificarRoles()">Vender artículos</button>
+        <button onclick="venderArticulo()">Vender artículos</button>
         <button onclick="verCarrito()">Carrito</button>
     </div>
 
-    <div id = "mensaje-inicio" class="main-container">
+    <div id="mensaje-inicio" class="main-container">
         <h1>¡Bienvenido a MEXshop!</h1>
         <p>¡Tu tienda de compra y venta en línea!</p>
 
@@ -25,8 +25,8 @@
         </div>
     </div>
 
-    <!-----------------------Barra de opciones para el vendedor activa después del botón----------------------------->
-    <div id = "navbar-vendedor" class="navbar-vendedor">
+    <!-----------------------Barra de opciones para el vendedor activa después del botón-----------------------------> 
+    <div id="navbar-vendedor" class="navbar-vendedor">
         <button onclick="paginaPrincipal()">Página Principal</button>
         <button onclick="opcionesVendedor()">Publicar, modificar o eliminar artículo</button>
         <button onclick="verVentas()">Ventas totales</button>
@@ -34,7 +34,7 @@
     </div>
 
     <!--Acciones disponibles para los vendedores-->
-    <div id = "opcionesVendedor" class ="opcionesVendedor-container">
+    <div id="opcionesVendedor" class="opcionesVendedor-container">
         <button onclick="nuevoArtículo()" class="btnOpciones">Publicar nuevo artículo en venta</button>
         <button onclick="modificarArticulo()" class="btnOpciones">Modificar un artículo ya publicado</button>
         <button onclick="eliminarArtículo()" class="btnOpciones">Eliminar artículo a la venta</button>
@@ -42,22 +42,22 @@
 
     <!--Formato para la adición de un nuevo producto a la venta-->
     <div id="nuevoProducto" class="nuevoproducto-container">
-        <form id="formNuevoProducto"> <!-- Cambié el id del formulario -->
+        <form> 
             <div class="nuevaInformacion">
                 <div class="input-group">
-                    <label>¿Cuál es el nombre del producto que quieres vender?</label>
+                    <label for="nuevo-producto-nombre">¿Cuál es el nombre del producto que quieres vender?</label>
                     <input type="text" id="nuevo-producto" placeholder="Ingresa un nombre" required>
                 </div>
                 <div class="input-group">
-                    <label>¿Cuál es el precio para el nuevo producto?</label>
+                    <label for="nuevo-precio">¿Cuál es el precio para el nuevo producto?</label>
                     <input type="number" id="nuevo-precio" placeholder="Ingresa el precio en MXN" required>
                 </div>
                 <div class="input-group">
-                    <label>Agrega una breve descripción de tu nuevo producto</label>
+                    <label for="nuevo-descripcion">Agrega una breve descripción de tu nuevo producto</label>
                     <input type="text" id="nuevo-descripcion" placeholder="Ingresa medidas o especificaciones importantes" required>
                 </div>
                 <div class="input-group">
-                    <label>Agrega la cantidad de productos disponibles para la venta</label>
+                    <label for="nuevo-stock">Agrega la cantidad de productos disponibles para la venta</label>
                     <input type="number" id="nuevo-stock" placeholder="Cantidad" required>
                 </div>
             </div>
@@ -67,96 +67,125 @@
                     <input type="file" id="nuevo-imagen" required>
                 </div> 
             </div>
-            <button type="submit" class="btnVenta">Publicar artículo a la venta</button> <!-- Cambié onclick a type="submit" -->
+            <button onclick="agregarProducto()" type="submit" class="btnVenta">Publicar artículo a la venta</button>
         </form>
-        <button onclick="cancelar()" class="btnVentaCancelar">Cancelar publicación</button>
+            <button onclick="cancelar()" class="btnVentaCancelar">Cancelar publicación</button>
     </div>
 
+    <script src="database.js"></script>
+    <script src="index.js"></script>
+    <script>
+        // Alerta que aparece cuando se accede a la página principal
+        alert('Bienvenido a MEXshop');
 
-    <!--Formato para la modificación de un producto a la venta-->
-    <div id ="modificarProducto" class = "modificarProducto-container">
-        <button onclick = "cancelarModificar()"class = "btnOpciones">Cancelar Modificacion</button>
-    </div>
+        // Función para manejar la compra de un producto
+        function comprarProducto(nombreProducto) {
+            alert(`¡Has comprado el producto: ${nombreProducto}!`);
+        }
 
-    <!--Formato para la eliminación de un producto a la venta-->
-    <div id = "eliminarProducto" class = "eliminarProducto-container">
-        <button onclick = "cancelarEliminar()" class = "btnOpciones">Cancelar Modificacion</button>
-    </div>
+        // Función para mostrar los productos en la página principal
+        function mostrarProductos() {
+            const productos = obtenerProductos(); // Esto obtiene la lista de productos de la base de datos o un objeto similar
+            const productListContainer = document.getElementById("product-list");
 
-    <!--Formato para observar las estadísticas de ventas-->
-    <div id = "statsVendedor" class = "statsVendedor-container">
-        <button onclick = "ventasTotales()" class = "btn">Ventas totales concretadas</button>
-       <!-- <div class="graficoPrincipal" style = "width: 400px;">
-            <canvas id="graficoVentasTotales"></canvas>
-        </div>-->
-    </div>
+            productos.forEach((producto) => {
+                const productElement = document.createElement("div");
+                productElement.classList.add("product");
 
-    <!-- Formato para usuarios no vendedores -->
-    <div id="subidaArchivos" class="subidaArchivos-container">
-        <h1>¡Ingresa los siguientes documentos para comenzar a vender y generar un ingreso extra!</h1>
-        <h3>Los documentos son para poder realizar el pago de impuestos y verificar tu identidad</h3>
+                productElement.innerHTML = `
+                    <h3>${producto.nombre}</h3>
+                    <p>Precio: $${producto.precio}</p>
+                    <p>Vendedor: ${producto.vendedor}</p>
+                    <p>Descripción: ${producto.Descripcion}</p>
+                    <p>Stock: ${producto.Stock}</p>
+                    <img src="${producto.imagen}" alt="${producto.nombre}" style="width: 200px;">
+                    <button onclick="comprarProducto('${producto.nombre}')">Comprar</button>
+                `;
 
-        <label for="RFC">Sube aquí tu constancia de Situación Fiscal</label>
-        <input type="file" id="RFC" onchange="return validarExt()" required>
+                productListContainer.appendChild(productElement);
+            });
+        }
 
-        <label for="ID">Sube aquí tu identificación oficial</label>
-        <label for="ID">Puede ser Pasaporte, INE, Licencia de conducir o Cartilla Militar</label>
-        <input type="file" id="ID" onchange="return validarExt()" required>
-        <button id="confirmarRoles" onclick = "confirmarRoles()" class = "btnConfirmarRoles">Subir archivos</button>
-    </div>
+        // Función para obtener productos (puedes obtenerlos desde una base de datos o desde un archivo JSON)
+        function obtenerProductos() {
+            return [
+                {
+                    nombre: "Laptop HP",
+                    precio: 8500,
+                    vendedor: "Juan Perez",
+                    Descripcion: "Potente y elegante laptop con procesador de última generación.",
+                    Stock: 40,
+                    imagen: "imagenes/laptophp.jpg"
+                },
+                {
+                    nombre: "Teléfono Xiaomi",
+                    precio: 3500,
+                    vendedor: "Maria Lopez",
+                    Descripcion: "Smartphone moderno con cámara de alta resolución.",
+                    Stock: 37,
+                    imagen: "imagenes/xiaomi.jpg"
+                },
+                {
+                    nombre: "Cámara Digital Canon",
+                    precio: 2500,
+                    vendedor: "Carlos Gomez",
+                    Descripcion: "Cámara profesional con sensor de alta resolución.",
+                    Stock: 7,
+                    imagen: "imagenes/canon.jpg"
+                },
+                {
+                    nombre: "Silla Gaming",
+                    precio: 1500,
+                    vendedor: "Ana Fernandez",
+                    Descripcion: "Silla gamer ergonómica con diseño premium.",
+                    Stock: 11,
+                    imagen: "imagenes/silla.jpg"
+                },
+                {
+                    nombre: "Control para Xbox",
+                    precio: 1463,
+                    vendedor: "Juan Manuel",
+                    Descripcion: "Control de Xbox con diseño ergonómico y conectividad inalámbrica.",
+                    Stock: 13,
+                    imagen: "imagenes/control.jpg"
+                },
+                {
+                    nombre: "Bolsa de Dama",
+                    precio: 1200,
+                    vendedor: "Sofía Pérez",
+                    Descripcion: "Elegante bolsa de dama de cuero.",
+                    Stock: 25,
+                    imagen: "imagenes/bolsa.jpg"
+                },
+                {
+                    nombre: "iPhone 14",
+                    precio: 19999,
+                    vendedor: "Roberto García",
+                    Descripcion: "iPhone 14 con cámara de 48 MP y pantalla Super Retina XDR.",
+                    Stock: 15,
+                    imagen: "imagenes/iphone13.jpg"
+                },
+                {
+                    nombre: "Audífonos Bluetooth",
+                    precio: 850,
+                    vendedor: "Carla Rodríguez",
+                    Descripcion: "Audífonos inalámbricos con cancelación de ruido y batería de larga duración.",
+                    Stock: 30,
+                    imagen: "imagenes/audifonos.jpg"
+                },
+                {
+                    nombre: "Zapatos Adidas",
+                    precio: 2300,
+                    vendedor: "Juan Martínez",
+                    Descripcion: "Zapatillas deportivas de Adidas.",
+                    Stock: 50,
+                    imagen: "imagenes/adidas.jpg"
+                }
+            ];
+        }
 
+        // Mostrar los productos cuando la página cargue
+        mostrarProductos();
+    </script>
 </body>
-<script src="database.js"></script>
-<script src="index.js"></script>
-<script>
-    let paginaActual = 0;
-    // Alerta que aparece cuando se accede a la página principal
-    alert('Bienvenido a MEXshop');
-
-    // Función para cerrar sesión
-    function cerrarSesion() {
-        // Puedes redirigir al usuario al login o eliminar su sesión si fuera necesario
-        alert('Has cerrado sesión');
-        window.location.href = 'index.html'; // Redirigir a la página de login
-    }
-
-    // Función para ver el carrito
-    function verCarrito() {
-        // Ocultar los productos
-        document.getElementById('product-list').style.display = 'none';
-        alert('Ver el carrito de compras');
-        window.location.href = 'carrito.html'; // Aquí puedes redirigir al carrito de compras o mostrar su contenido
-    }
-
-    // Función para mostrar los productos en la página principal
-    function mostrarProductos() {
-        const productos = obtenerProductos();
-        const productListContainer = document.getElementById("product-list");
-
-        productos.forEach((producto) => {
-            const productElement = document.createElement("div");
-            productElement.classList.add("product");
-
-            productElement.innerHTML = `
-                <h3>${producto.nombre}</h3>
-                <p>Precio: $${producto.precio}</p>
-                <p>Vendedor: ${producto.vendedor}</p>
-                <p>Descripcion: ${producto.Descripcion}</p>
-                <p>Stock: ${producto.Stock}</p>
-
-                <button onclick="comprarProducto('${producto.nombre}')">Comprar</button>
-            `;
-
-            productListContainer.appendChild(productElement);
-        });
-    }
-
-    // Función para manejar la compra de un producto
-    function comprarProducto(nombreProducto) {
-        alert(`¡Has comprado el producto: ${nombreProducto}!`);
-    }
-
-    // Mostrar los productos cuando la página cargue
-    mostrarProductos();
-</script>
 </html>
