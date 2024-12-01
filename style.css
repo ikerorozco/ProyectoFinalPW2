@@ -426,3 +426,10 @@ button:hover {
 .btnConfirmarRoles{
     display: none;
 }
+.productListContainerDos{
+    display: flex;
+}
+
+.modificaProducto-container{
+    display: none;
+}
